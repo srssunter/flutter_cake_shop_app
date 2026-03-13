@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_cake_shop_app/models/cake_shop.dart';
+import 'package:flutter_cake_shop_app/views/cake_shop_detail_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CakeShopListUi extends StatefulWidget {
-  const CakeShopListUi({super.key});
+   const CakeShopListUi({super.key});
 
   @override
   State<CakeShopListUi> createState() => _CakeShopListUiState();
@@ -137,8 +138,10 @@ class _CakeShopListUiState extends State<CakeShopListUi> {
       scheme: 'tel',
       path: phoneNumber,
     );
-    await launchUrl(launchUri);;
+    await launchUrl(launchUri);
+    ;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,7 +191,14 @@ class _CakeShopListUiState extends State<CakeShopListUi> {
                   itemBuilder: (context, index) {
                     return ListTile(
                       onTap: () {
-                        _makePhoneCall(cakeShops[index].phone !);
+                        //เปิดไปหน้า CakeshopDetailui แบบย้อนกลับได้ พร้อมกับส่งข้อมูลร้านไปด้วย
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CakeShopDetailUi(cakeShop: cakeShops[index]),
+                          ),
+                        );
                       },
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
@@ -197,10 +207,10 @@ class _CakeShopListUiState extends State<CakeShopListUi> {
                         ),
                       ),
                       title: Text(
-                        cakeShops[index].name !,
+                        cakeShops[index].name!,
                       ),
                       subtitle: Text(
-                        cakeShops[index].phone !,
+                        cakeShops[index].phone!,
                       ),
                       trailing: Icon(
                         Icons.info,
